@@ -25,6 +25,8 @@ app.use(
   })
 );
 
+app.get("/", (req, res) => res.send({ hi: "supa" }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
