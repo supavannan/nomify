@@ -2,7 +2,7 @@ const express = require("express");
 
 const app = express();
 
-app.get("/", (req, res) => res.send({ hi: "there" }));
+app.get("/", (req, res) => res.send({ hi: "supa" }));
 
 //if heroku pushes env variables, otherwise use 5000 (dev)
 const PORT = process.env.PORT || 5000;
