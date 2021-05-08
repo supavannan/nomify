@@ -5,5 +5,5 @@ const userSchema = new Schema({
   googleID: String,
 });
 
-//load schema into "users" model
+//create model class - load schema into "users" mongoose model
 mongoose.model("users", userSchema);
