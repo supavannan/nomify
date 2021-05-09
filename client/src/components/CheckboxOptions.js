@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import Container from "@material-ui/core/Container";
 
 const CustomCheckbox = (props) => {
   const { tableHeadings, updateHeadings, name, headingsInfo } = props;
@@ -37,7 +38,18 @@ class CheckboxOptions extends Component {
         );
       }
     }
-    return <FormGroup row>{checkboxes}</FormGroup>;
+    return (
+      <Container
+        maxWidth="lg"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: "20%",
+        }}
+      >
+        <FormGroup row>{checkboxes}</FormGroup>
+      </Container>
+    );
   }
 }
 

@@ -33,7 +33,7 @@ function DiscreteSlider(props) {
         gutterBottom
         style={{ width: "100%", marginBottom: "0px", justifyContent: "center" }}
       >
-        Maximum Number of Results to Pull
+        Max Query Size
       </Typography>
       <Slider
         onChange={updateMaxNumResults}
@@ -115,7 +115,8 @@ class Form extends Component {
                 color="primary"
                 size="large"
                 onClick={this.submitSearchForm}
-                style={{ background: "#0d824b", position: "relative" }}
+                // style={{ background: "#0d824b", position: "relative" }}
+                style={{ position: "relative" }}
               >
                 Search
               </Button>

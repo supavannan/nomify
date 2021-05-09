@@ -3,6 +3,8 @@ import { BrowserRouter, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../actions";
 import Container from "@material-ui/core/Container";
+import Slide from "@material-ui/core/Slide";
+import Zoom from "@material-ui/core/Zoom";
 
 import Header from "./Header";
 import Banner from "./Banner";
@@ -10,27 +12,28 @@ import SearchBar from "./SearchBar";
 import SearchTable from "./SearchTable";
 import NomTable from "./NomTable";
 import CheckboxOptions from "./CheckboxOptions";
+import Progress from "./Progress";
 
 const searchTableHeadings = {
   Title: true,
   Year: true,
-  imdbID: true,
+  imdbID: false,
 };
 
 const nomTableHeadings = {
   Title: true,
   Year: true,
   imdbID: false,
-  Runtime: true,
+  Runtime: false,
   Genre: true,
-  Language: true,
-  Country: true,
+  Language: false,
+  Country: false,
   imdbRating: true,
   imdbVotes: false,
 };
 
 const headingsInfo = {
-  Title: { name: "Title", viewing: true },
+  Title: { name: "Movie Title", viewing: true },
   Year: { name: "Year", viewing: "small" },
   imdbID: { name: "ID", viewing: "small" },
   Runtime: { name: "Runtime", viewing: "small" },
@@ -43,6 +46,11 @@ const headingsInfo = {
 
 const apiBaseURL = "https://www.omdbapi.com/?";
 const apiKEY = "f5265cbb";
+
+//const Header = () => <h2>Stock Search</h2>;
+const Dashboard = () => <h2>Dashboard</h2>;
+const Configure = () => <h2>Configure</h2>;
+const Landing = () => <h2>Welcome to Nomify</h2>;
 
 class App extends Component {
   state = {
@@ -74,7 +82,6 @@ class App extends Component {
       //flip the state of the given heading (true to false, false to true)
       nomTableHeadings: { ...nomTableHeadings, [heading]: newCheckState },
     });
-    //console.log(nomTableHeadings);
   };
 
   handleSearch = async (entry) => {
@@ -100,7 +107,6 @@ class App extends Component {
         allResults = allResults.concat(resultJSON["Search"]);
         numResultsSoFar += resultJSON["Search"].length;
       }
-      // console.log(totalResults);
       this.setState({
         searchResults: allResults,
         displayResults: true,
@@ -162,50 +168,43 @@ class App extends Component {
       <div>
         <BrowserRouter>
           <Container maxWidth="lg">
+            <Route path="/landing" component={Landing} />
             <Header />
-            {nominated.length >= 5 && <Banner />}
 
-            <Container maxWidth="md">
+            {nominated.length >= 5 && <Banner />}
+            <Route path="/landing" component={Landing} />
+            <Container maxWidth="lg">
               <SearchBar
                 handleSubmit={this.handleSearch}
                 updateMaxNumResults={this.updateMaxNumResults}
               />
-              {true && (
-                <SearchTable
-                  searchResults={searchResults}
-                  tableHeadings={searchTableHeadings}
-                  nominated={nominated}
-                  nominateMovie={this.nominateMovie}
-                  searchMessage={searchMessage}
-                  displayResults={displayResults}
-                  headingsInfo={headingsInfo}
-                />
-              )}
+
+              <SearchTable
+                searchResults={searchResults}
+                tableHeadings={searchTableHeadings}
+                nominated={nominated}
+                nominateMovie={this.nominateMovie}
+                searchMessage={searchMessage}
+                displayResults={displayResults}
+                headingsInfo={headingsInfo}
+              />
             </Container>
 
-            {true && (
-              <NomTable
-                tableHeadings={nomTableHeadings}
-                headingsInfo={headingsInfo}
-                nominated={nominated}
-                nominatedMovies={nominatedMovies}
-                removeNomination={this.removeNomination}
-              />
-            )}
-            <Container
-              maxWidth="lg"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginBottom: "15%",
-              }}
-            >
-              <CheckboxOptions
-                tableHeadings={nomTableHeadings}
-                updateHeadings={this.updateHeadings}
-                headingsInfo={headingsInfo}
-              />
-            </Container>
+            {true && <Progress nominated={nominated} />}
+
+            <NomTable
+              tableHeadings={nomTableHeadings}
+              headingsInfo={headingsInfo}
+              nominated={nominated}
+              nominatedMovies={nominatedMovies}
+              removeNomination={this.removeNomination}
+            />
+
+            <CheckboxOptions
+              tableHeadings={nomTableHeadings}
+              updateHeadings={this.updateHeadings}
+              headingsInfo={headingsInfo}
+            />
           </Container>
         </BrowserRouter>
       </div>

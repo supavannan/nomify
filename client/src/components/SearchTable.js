@@ -20,7 +20,7 @@ const useStyles = makeStyles({
     maxHeight: 400,
     width: "80%",
     marginTop: "0%",
-    marginBottom: "5%",
+    marginBottom: "3%",
     marginLeft: "10%",
     marginRight: "10%",
     overflow: "auto",
@@ -30,6 +30,8 @@ const useStyles = makeStyles({
   },
   headCell: {
     fontWeight: "bold",
+    background: "#0d824b",
+    color: "#ffffff",
   },
 });
 

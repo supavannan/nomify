@@ -20,3 +20,8 @@ export const fetchUser = () => {
     dispatch({ type: FETCH_USER, payload: res });
   };
 };
+
+export const submitList = (values) => async (dispatch) => {
+  const res = await axios.post("/api/lists", values);
+  dispatch({ type: FETCH_USER, payload: res.data });
+};

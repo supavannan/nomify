@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button } from "@material-ui/core";
+import { Button, withTheme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import TableBodyUI from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -19,11 +19,11 @@ const useStyles = makeStyles({
   paper: {
     minHeight: 400,
     maxHeight: 400,
-    width: "80%",
+    width: "90%",
     marginTop: "1%",
     marginBottom: "1%",
-    marginLeft: "10%",
-    marginRight: "10%",
+    marginLeft: "5%",
+    marginRight: "5%",
     overflow: "auto",
   },
   cell: {
@@ -31,6 +31,8 @@ const useStyles = makeStyles({
   },
   headCell: {
     fontWeight: "bold",
+    background: "#0d824b",
+    color: "#ffffff",
   },
 });
 
