@@ -40,7 +40,7 @@ class App extends Component {
   }
 
   handleSearch = async (entry) => {
-    const apiBaseURL = "http://www.omdbapi.com/?";
+    const apiBaseURL = "https://www.omdbapi.com/?";
     const apiKEY = "f5265cbb";
     let pageNumber = 1;
     let endpoint = `${apiBaseURL}s=${entry.keyword}&type=movie&apikey=${apiKEY}`;
