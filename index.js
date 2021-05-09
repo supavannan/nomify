@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
 const keys = require("./config/keys");
+const path = require("path");
 
 //importing mongoDB models
 require("./models/User");
@@ -25,13 +26,20 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => res.send({ hi: "supa" }));
-
 app.use(passport.initialize());
 app.use(passport.session());
 
 //authRoutes returns the route handlers with app passed in
 require("./routes/authRoutes")(app);
+
+if (process.env.NODE_ENV === "production") {
+  //make sure Express will serve up production assets
+  app.use(express.static("client/build"));
+  //serve index.js if route unrecognized
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "client", "build", index.html))
+  );
+}
 
 //if heroku pushes env variables, otherwise use 5000 (dev)
 const PORT = process.env.PORT || 5000;
