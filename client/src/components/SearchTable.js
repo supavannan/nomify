@@ -1,18 +1,13 @@
 import React, { Component } from "react";
 import { Button } from "@material-ui/core";
 import TableUI from "@material-ui/core/Table";
-import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from "@material-ui/icons/Delete";
 import { makeStyles } from "@material-ui/core/styles";
-import { green, white } from "@material-ui/core/colors";
-import Icon from "@material-ui/core/Icon";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
 import TableBodyUI from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHeadUI from "@material-ui/core/TableHead";
 import TableRowUI from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles({
   table: {
@@ -22,29 +17,42 @@ const useStyles = makeStyles({
     marginRight: "0%",
   },
   paper: {
-    height: 400,
+    maxHeight: 400,
     width: "80%",
-    marginTop: "5%",
+    marginTop: "0%",
+    marginBottom: "5%",
     marginLeft: "10%",
     marginRight: "10%",
     overflow: "auto",
+  },
+  slider: {
+    width: 300,
+  },
+  headCell: {
+    fontWeight: "bold",
   },
 });
 
 const TableHeader = (props) => {
   const headings = [];
   const { tableHeadings, headingsInfo } = props;
-
+  const classes = useStyles();
   for (let heading in tableHeadings) {
     if (tableHeadings[heading]) {
       if (headingsInfo[heading]) {
-        headings.push(<TableCell>{headingsInfo[heading].name}</TableCell>);
+        headings.push(
+          <TableCell className={classes.headCell}>
+            {headingsInfo[heading].name}
+          </TableCell>
+        );
       } else {
-        headings.push(<TableCell>{heading}</TableCell>);
+        headings.push(
+          <TableCell className={classes.headCell}>{heading}</TableCell>
+        );
       }
     }
   }
-  headings.push(<TableCell>Nominate</TableCell>);
+  headings.push(<TableCell className={classes.headCell}>Nominate</TableCell>);
   //headings.push(<TableCell>Row</TableCell>);
   return (
     <TableHeadUI style={{ wordWrap: "break-word" }}>
@@ -67,7 +75,9 @@ class TableRow extends Component {
     const { data, index, tableHeadings, nominateMovie, nominated } = this.props;
     const elements = [];
     for (let heading in tableHeadings) {
-      elements.push(<TableCell>{data[heading]}</TableCell>);
+      if (tableHeadings[heading]) {
+        elements.push(<TableCell>{data[heading]}</TableCell>);
+      }
     }
 
     let buttonInactive = false;
@@ -80,7 +90,6 @@ class TableRow extends Component {
         <TableCell>
           <Button
             disabled={buttonInactive}
-            //style={{ color: "#ffffff", backgroundColor: green[500] }}
             color="primary"
             variant="outlined"
             onClick={() => nominateMovie(index)}
@@ -125,30 +134,62 @@ const Table = (props) => {
     headingsInfo,
     nominateMovie,
     nominated,
+    searchMessage,
+    displayResults,
   } = props;
-  console.log(searchResults);
+  // console.log(searchResults);
   const classes = useStyles();
-  if (searchResults.length > 0) {
-    return (
-      <TableContainer className={classes.paper}>
-        <TableUI className={classes.table} stickyHeader>
-          <TableHeader
-            tableHeadings={tableHeadings}
-            headingsInfo={headingsInfo}
-          />
-          <TableBody
-            searchResults={searchResults}
-            tableHeadings={tableHeadings}
-            headingsInfo={headingsInfo}
-            nominateMovie={nominateMovie}
-            nominated={nominated}
-          />
-        </TableUI>
-      </TableContainer>
-    );
-  } else {
-    return <div>No Results</div>;
-  }
+  return (
+    <Container maxWidth="lg">
+      {!displayResults && (
+        <Container
+          maxWidth="md"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "10%",
+          }}
+        >
+          <h5
+            style={{
+              fontStyle: "italic",
+            }}
+          >
+            {searchMessage}
+          </h5>
+        </Container>
+      )}
+      {displayResults && (
+        <div>
+          <Container
+            maxWidth="md"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "1%",
+            }}
+          >
+            <h4>Your Search Results</h4>
+          </Container>
+          <TableContainer className={classes.paper}>
+            <TableUI className={classes.table} stickyHeader>
+              <TableHeader
+                tableHeadings={tableHeadings}
+                headingsInfo={headingsInfo}
+              />
+              <TableBody
+                searchResults={searchResults}
+                tableHeadings={tableHeadings}
+                headingsInfo={headingsInfo}
+                nominateMovie={nominateMovie}
+                nominated={nominated}
+              />
+            </TableUI>
+          </TableContainer>
+        </div>
+      )}
+    </Container>
+  );
 };
 
 export default Table;

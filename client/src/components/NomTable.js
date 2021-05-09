@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import { Button } from "@material-ui/core";
-import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from "@material-ui/icons/Delete";
 import { makeStyles } from "@material-ui/core/styles";
-import { green, white } from "@material-ui/core/colors";
-import Icon from "@material-ui/core/Icon";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
 import TableBodyUI from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -13,24 +8,29 @@ import TableHeadUI from "@material-ui/core/TableHead";
 import TableRowUI from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import TableUI from "@material-ui/core/Table";
+import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles({
   table: {
-    minWidth: "90%",
-    maxWidth: "90%",
-    margin: "5%",
+    minWidth: "100%",
+    maxWidth: "100%",
+    margin: "0%",
   },
   paper: {
+    minHeight: 400,
     maxHeight: 400,
     width: "80%",
-    marginTop: "2%",
+    marginTop: "1%",
+    marginBottom: "1%",
     marginLeft: "10%",
     marginRight: "10%",
     overflow: "auto",
   },
   cell: {
-    minWidth: "15%",
-    maxWidth: "15%",
+    justifyContent: "center",
+  },
+  headCell: {
+    fontWeight: "bold",
   },
 });
 
@@ -42,18 +42,18 @@ const TableHeader = (props) => {
     if (tableHeadings[heading]) {
       if (headingsInfo[heading]) {
         headings.push(
-          <TableCell className={classes.cell}>
+          <TableCell className={classes.headCell}>
             {headingsInfo[heading].name}
           </TableCell>
         );
       } else {
         headings.push(
-          <TableCell className={classes.cell}>{heading}</TableCell>
+          <TableCell className={classes.headCell}>{heading}</TableCell>
         );
       }
     }
   }
-  headings.push(<TableCell className={classes.cell}>Remove</TableCell>);
+  headings.push(<TableCell className={classes.headCell}>Remove</TableCell>);
   //headings.push(<TableCell>Row</TableCell>);
   return (
     <TableHeadUI style={{ wordWrap: "break-word" }}>
@@ -82,16 +82,15 @@ class TableRow extends Component {
     } = this.props;
     const elements = [];
     for (let heading in tableHeadings) {
-      elements.push(<TableCell>{data[heading]}</TableCell>);
+      if (tableHeadings[heading]) {
+        elements.push(<TableCell>{data[heading]}</TableCell>);
+      }
     }
 
     return (
       <TableRowUI key={index}>
         {elements}
         <TableCell>
-          {/* <IconButton aria-label="delete">
-            <DeleteIcon />
-          </IconButton> */}
           <Button
             disabled={false}
             variant="outlined"
@@ -143,21 +142,33 @@ const Table = (props) => {
   } = props;
   const classes = useStyles();
   return (
-    <TableContainer className={classes.paper} component={Paper}>
-      <TableUI className={classes.table}>
-        <TableHeader
-          tableHeadings={tableHeadings}
-          headingsInfo={headingsInfo}
-        />
-        <TableBody
-          nominatedMovies={nominatedMovies}
-          tableHeadings={tableHeadings}
-          headingsInfo={headingsInfo}
-          nominated={nominated}
-          removeNomination={removeNomination}
-        />
-      </TableUI>
-    </TableContainer>
+    <div>
+      <Container
+        maxWidth="md"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "3%",
+        }}
+      >
+        <h3>Your Nominations</h3>
+      </Container>
+      <TableContainer className={classes.paper} component={Paper}>
+        <TableUI className={classes.table} stickyHeader>
+          <TableHeader
+            tableHeadings={tableHeadings}
+            headingsInfo={headingsInfo}
+          />
+          <TableBody
+            nominatedMovies={nominatedMovies}
+            tableHeadings={tableHeadings}
+            headingsInfo={headingsInfo}
+            nominated={nominated}
+            removeNomination={removeNomination}
+          />
+        </TableUI>
+      </TableContainer>
+    </div>
   );
 };
 
