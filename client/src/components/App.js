@@ -3,8 +3,8 @@ import { BrowserRouter, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../actions";
 import Container from "@material-ui/core/Container";
-import Slide from "@material-ui/core/Slide";
-import Zoom from "@material-ui/core/Zoom";
+import SvgIcon from "@material-ui/core/SvgIcon";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
 import Header from "./Header";
 import Banner from "./Banner";
@@ -201,12 +201,12 @@ class App extends Component {
                 style={{
                   display: "flex",
                   justifyContent: "center",
-                  marginTop: "3%",
+                  marginTop: "8%",
                 }}
               >
-                <h2 style={{ color: "green", fontFamily: "Courier New" }}>
-                  Your Favs
-                </h2>
+                <FavoriteIcon
+                  style={{ color: "red", width: "50px", height: "50px" }}
+                />
               </Container>
               {true && <Progress nominated={nominated} />}
               <CheckboxOptions
