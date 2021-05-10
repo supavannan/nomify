@@ -5,17 +5,20 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Button, IconButton } from "@material-ui/core";
+import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    display: "flex",
     flexGrow: 1,
-    backgroundColor: "#0d824b",
+    justifyContent: "center",
   },
   menuButton: {
     marginRight: theme.spacing(1),
   },
   title: {
     flexGrow: 1,
+    justifyContent: "center",
   },
 }));
 
@@ -23,24 +26,26 @@ const Header = (props) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root} backgroundColor="black">
-      <AppBar position="static" className={classes.root}>
-        <Toolbar>
-          {/* <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton> */}
-          <Typography variant="h6" className={classes.title}>
-            Nomify
-          </Typography>
-          {/* <Button color="inherit">Login</Button> */}
-        </Toolbar>
-      </AppBar>
-    </div>
+    <Container
+      maxWidth="md"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        marginTop: "3%",
+        fontSize: "36px",
+        color: "white",
+      }}
+    >
+      <h1
+        style={{
+          fontSize: "56px",
+          color: "green",
+          fontFamily: "Courier New",
+        }}
+      >
+        Nomify
+      </h1>
+    </Container>
   );
 };
 

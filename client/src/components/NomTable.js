@@ -18,10 +18,10 @@ const useStyles = makeStyles({
   },
   paper: {
     minHeight: 400,
-    maxHeight: 400,
+    maxHeight: 600,
     width: "90%",
     marginTop: "1%",
-    marginBottom: "1%",
+    marginBottom: "20%",
     marginLeft: "5%",
     marginRight: "5%",
     overflow: "auto",
@@ -31,8 +31,10 @@ const useStyles = makeStyles({
   },
   headCell: {
     fontWeight: "bold",
-    background: "#0d824b",
+    background: "black",
     color: "#ffffff",
+    borderBotton: "none",
+    fontSize: "20px",
   },
 });
 
@@ -40,6 +42,7 @@ const TableHeader = (props) => {
   const headings = [];
   const { tableHeadings, headingsInfo } = props;
   const classes = useStyles();
+  headings.push(<TableCell className={classes.headCell}>Poster</TableCell>);
   for (let heading in tableHeadings) {
     if (tableHeadings[heading]) {
       if (headingsInfo[heading]) {
@@ -83,20 +86,39 @@ class TableRow extends Component {
       removeNomination,
     } = this.props;
     const elements = [];
+    elements.push(
+      <TableCell style={{ borderBottom: "none" }}>
+        <img
+          src={data["Poster"]}
+          alt="Poster"
+          style={{
+            width: "150px",
+            height: "200px",
+            borderRadius: "15px",
+          }}
+        />
+      </TableCell>
+    );
     for (let heading in tableHeadings) {
       if (tableHeadings[heading]) {
-        elements.push(<TableCell>{data[heading]}</TableCell>);
+        elements.push(
+          <TableCell
+            style={{ fontSize: "20px", borderBottom: "none", color: "white" }}
+          >
+            {data[heading]}
+          </TableCell>
+        );
       }
     }
 
     return (
       <TableRowUI key={index}>
         {elements}
-        <TableCell>
+        <TableCell style={{ borderBottom: "none" }}>
           <Button
             disabled={false}
             variant="outlined"
-            color="primary"
+            color="secondary"
             onClick={() => removeNomination(index)}
           >
             Remove
@@ -145,17 +167,7 @@ const Table = (props) => {
   const classes = useStyles();
   return (
     <div>
-      <Container
-        maxWidth="md"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "3%",
-        }}
-      >
-        <h3>Your Nominations</h3>
-      </Container>
-      <TableContainer className={classes.paper} component={Paper}>
+      <TableContainer className={classes.paper}>
         <TableUI className={classes.table} stickyHeader>
           <TableHeader
             tableHeadings={tableHeadings}

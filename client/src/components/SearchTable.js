@@ -8,6 +8,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHeadUI from "@material-ui/core/TableHead";
 import TableRowUI from "@material-ui/core/TableRow";
 import Container from "@material-ui/core/Container";
+import { green } from "@material-ui/core/colors";
 
 const useStyles = makeStyles({
   table: {
@@ -30,8 +31,13 @@ const useStyles = makeStyles({
   },
   headCell: {
     fontWeight: "bold",
-    background: "#0d824b",
+    background: "black",
     color: "#ffffff",
+    fontSize: "15px",
+  },
+  cell: {
+    fontSize: "30px",
+    borderBottom: "none",
   },
 });
 
@@ -39,6 +45,7 @@ const TableHeader = (props) => {
   const headings = [];
   const { tableHeadings, headingsInfo } = props;
   const classes = useStyles();
+  headings.push(<TableCell className={classes.headCell}>Poster</TableCell>);
   for (let heading in tableHeadings) {
     if (tableHeadings[heading]) {
       if (headingsInfo[heading]) {
@@ -76,27 +83,46 @@ class TableRow extends Component {
   render() {
     const { data, index, tableHeadings, nominateMovie, nominated } = this.props;
     const elements = [];
+    elements.push(
+      <TableCell style={{ borderBottom: "none" }}>
+        <img
+          src={data["Poster"]}
+          alt="Poster"
+          style={{ width: "80px", height: "100px", borderRadius: "15px" }}
+        />
+      </TableCell>
+    );
     for (let heading in tableHeadings) {
       if (tableHeadings[heading]) {
-        elements.push(<TableCell>{data[heading]}</TableCell>);
+        elements.push(
+          <TableCell
+            style={{ fontSize: "20px", color: "white", borderBottom: "none" }}
+          >
+            {data[heading]}
+          </TableCell>
+        );
       }
     }
 
     let buttonInactive = false;
-    if (nominated.includes(data["imdbID"])) {
+    if (nominated.includes(data["imdbID"]) || nominated.length >= 5) {
       buttonInactive = true;
     }
     return (
       <TableRowUI key={index}>
         {elements}
-        <TableCell>
+        <TableCell style={{ borderBottom: "none" }}>
           <Button
             disabled={buttonInactive}
             color="primary"
             variant="outlined"
             onClick={() => nominateMovie(index)}
+            // style={{
+            //   color: "green",
+            //   border: "1px solid green",
+            // }}
           >
-            Nominate
+            {nominated.includes(data["imdbID"]) ? "Nominated" : "Nominate"}
           </Button>
         </TableCell>
         {/* <td>{index}</td> */}
@@ -175,10 +201,10 @@ const Table = (props) => {
           </Container>
           <TableContainer className={classes.paper}>
             <TableUI className={classes.table} stickyHeader>
-              <TableHeader
+              {/* <TableHeader
                 tableHeadings={tableHeadings}
                 headingsInfo={headingsInfo}
-              />
+              /> */}
               <TableBody
                 searchResults={searchResults}
                 tableHeadings={tableHeadings}

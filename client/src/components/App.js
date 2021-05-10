@@ -13,6 +13,7 @@ import SearchTable from "./SearchTable";
 import NomTable from "./NomTable";
 import CheckboxOptions from "./CheckboxOptions";
 import Progress from "./Progress";
+import Notif from "./Notif";
 
 const searchTableHeadings = {
   Title: true,
@@ -22,8 +23,7 @@ const searchTableHeadings = {
 
 const nomTableHeadings = {
   Title: true,
-  Year: true,
-  imdbID: false,
+  Year: false,
   Runtime: false,
   Genre: true,
   Language: false,
@@ -35,13 +35,13 @@ const nomTableHeadings = {
 const headingsInfo = {
   Title: { name: "Movie Title", viewing: true },
   Year: { name: "Year", viewing: "small" },
-  imdbID: { name: "ID", viewing: "small" },
+  imdbID: { name: "IMDB ID", viewing: "small" },
   Runtime: { name: "Runtime", viewing: "small" },
   Genre: { name: "Genre", viewing: "small" },
   Language: { name: "Language", viewing: "small" },
   Country: { name: "Country", viewing: "small" },
-  imdbRating: { name: "IMDB Rating", viewing: "small" },
-  imdbVotes: { name: "# Votes", viewing: "small" },
+  imdbRating: { name: "Rating", viewing: "small" },
+  imdbVotes: { name: "#Votes", viewing: "small" },
 };
 
 const apiBaseURL = "https://www.omdbapi.com/?";
@@ -62,6 +62,7 @@ class App extends Component {
     displayResults: false,
     maxNumResults: 10,
     searchMessage: "",
+    alert: false,
   };
 
   componentDidMount() {
@@ -138,6 +139,11 @@ class App extends Component {
       nominated: [...nominated, movieID],
       nominatedMovies: [...nominatedMovies, resultJSON],
     });
+    if (nominated.length === 5) {
+      this.setState({
+        alert: true,
+      });
+    }
     //console.log(this.state.nominatedDetails);
   };
 
@@ -165,14 +171,14 @@ class App extends Component {
       searchMessage,
     } = this.state;
     return (
-      <div>
+      <div
+        style={{ display: "flex", backgroundColor: "black", minHeight: "100%" }}
+      >
         <BrowserRouter>
           <Container maxWidth="lg">
-            <Route path="/landing" component={Landing} />
             <Header />
-
+            {/* <Notif alert={alert} /> */}
             {nominated.length >= 5 && <Banner />}
-            <Route path="/landing" component={Landing} />
             <Container maxWidth="lg">
               <SearchBar
                 handleSubmit={this.handleSearch}
@@ -189,22 +195,33 @@ class App extends Component {
                 headingsInfo={headingsInfo}
               />
             </Container>
-
-            {true && <Progress nominated={nominated} />}
-
-            <NomTable
-              tableHeadings={nomTableHeadings}
-              headingsInfo={headingsInfo}
-              nominated={nominated}
-              nominatedMovies={nominatedMovies}
-              removeNomination={this.removeNomination}
-            />
-
-            <CheckboxOptions
-              tableHeadings={nomTableHeadings}
-              updateHeadings={this.updateHeadings}
-              headingsInfo={headingsInfo}
-            />
+            <Container maxWidth="lg">
+              <Container
+                maxWidth="md"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "3%",
+                }}
+              >
+                <h2 style={{ color: "green", fontFamily: "Courier New" }}>
+                  Your Favs
+                </h2>
+              </Container>
+              {true && <Progress nominated={nominated} />}
+              <CheckboxOptions
+                tableHeadings={nomTableHeadings}
+                updateHeadings={this.updateHeadings}
+                headingsInfo={headingsInfo}
+              />
+              <NomTable
+                tableHeadings={nomTableHeadings}
+                headingsInfo={headingsInfo}
+                nominated={nominated}
+                nominatedMovies={nominatedMovies}
+                removeNomination={this.removeNomination}
+              />
+            </Container>
           </Container>
         </BrowserRouter>
       </div>

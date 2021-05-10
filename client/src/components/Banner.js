@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: "#236160",
     justifyContent: "center",
+    borderRadius: "20px",
   },
   menuButton: {
     marginRight: theme.spacing(1),
@@ -27,7 +28,7 @@ const Banner = (props) => {
     <div className={classes.root} backgroundColor="black">
       <AppBar position="static" className={classes.root}>
         <Typography variant="h6" className={classes.title}>
-          Done! You have at least 5 nominations!
+          Done! You've Nominated 5 Movies!
         </Typography>
       </AppBar>
     </div>

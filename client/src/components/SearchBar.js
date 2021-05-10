@@ -31,7 +31,12 @@ function DiscreteSlider(props) {
       <Typography
         id="discrete-slider"
         gutterBottom
-        style={{ width: "100%", marginBottom: "0px", justifyContent: "center" }}
+        style={{
+          width: "100%",
+          marginBottom: "0px",
+          justifyContent: "center",
+          color: "white",
+        }}
       >
         Max Query Size
       </Typography>
@@ -83,13 +88,20 @@ class Form extends Component {
           style={{
             width: "100%",
             margin: "0%",
-            marginTop: "5%",
+            marginTop: "2%",
             marginBottom: "1px",
           }}
           onSubmit={this.submitSearchForm}
         >
           <div>
-            <label htmlFor="keyword">Search Keyword</label>
+            <label
+              htmlFor="keyword"
+              style={{
+                color: "white",
+              }}
+            >
+              Search Keyword
+            </label>
             <TextField
               type="text"
               name="keyword"
@@ -101,6 +113,9 @@ class Form extends Component {
                 width: "100%",
                 boxShadow: "0px 0px 0px 0px",
                 marginBottom: "10px",
+                backgroundColor: "white",
+                borderRadius: "15px",
+                fontSize: "30px",
               }}
             />
             <br />
